@@ -3,15 +3,15 @@
 ## Prerequisites
 
 - Docker
-- Node >= 18.x
+- Node >= 20.x
 
 ## Get Started
 
 ```bash
-yarn install
+npm install
 docker compose up -d # For Redis as Message Broker
-yarn dev # For development
-yarn prod # For Production or Docker Init Command
+npm run dev # For development
+npm run prod # For Production or Docker Init Command
 ```
 
 Then acces the frontend at http://localhost:3000
