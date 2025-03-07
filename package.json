@@ -12,29 +12,27 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.9",
-    "@types/express": "^5.0.0",
-    "@types/livereload": "^0.9.5",
+    "@eslint/js": "^9.21.0",
     "@types/connect-livereload": "^0.6.3",
+    "@types/express": "^5.0.0",
     "@types/http-server": "^0.12.4",
-    "@types/ws": "^8.18.0",
+    "@types/jest": "^29.5.14",
+    "@types/livereload": "^0.9.5",
     "@types/lodash": "^4.17.16",
-    "@typescript-eslint/eslint-plugin": "^5.31.0",
-    "@typescript-eslint/parser": "^5.31.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.6.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "@types/node": "^22.13.9",
+    "@types/ws": "^8.18.0",
+    "connect-livereload": "^0.6.1",
+    "globals": "^16.0.0",
+    "livereload": "^0.9.3",
     "prettier": "^3.5.3",
     "ts-jest": "^29.2.6",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.2",
-    "connect-livereload": "^0.6.1",
-    "livereload": "^0.9.3"
+    "typescript-eslint": "^8.26.0"
   },
   "dependencies": {
     "express": "^4.21.2",
-    "ws": "^8.18.1",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "ws": "^8.18.1"
   }
 }
