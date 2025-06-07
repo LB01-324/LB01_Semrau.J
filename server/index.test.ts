@@ -7,24 +7,24 @@ const port = 3000;
 describe('WebSocket Server', () => {
   let server: Server;
   let user: User;
-  beforeAll(async () => {
+
+  beforeAll(() => {
     user = {
       id: '1',
       name: 'Test User',
     };
-    server = await startServer(port);
+    server = startServer(port);
   });
   afterAll(() => server.close());
+
   test('Send "New User" from Client', async () => {
     const testMessage: Message = {
       type: 'newUser',
       user: user,
     };
     // Create test client
-    const client = new WebSocket(`ws://localhost:${port}`);
-    await waitForSocketState(client, client.OPEN);
     let responseMessage;
-    client.on('message', (data: RawData) => {
+    const client = await createClient((data: RawData) => {
       responseMessage = JSON.parse(data.toString());
       // Close the client after it receives the response
       client.close();
@@ -39,6 +39,7 @@ describe('WebSocket Server', () => {
     };
     expect(responseMessage).toEqual(expectedMessage);
   });
+
   test('Send "Message" from Client', async () => {
     const testMessage: Message = {
       type: 'message',
@@ -46,10 +47,8 @@ describe('WebSocket Server', () => {
       message: 'Test Message',
     };
     // Create test client
-    const client = new WebSocket(`ws://localhost:${port}`);
-    await waitForSocketState(client, client.OPEN);
     let responseMessage;
-    client.on('message', (data: RawData) => {
+    const client = await createClient((data: RawData) => {
       responseMessage = JSON.parse(data.toString());
       // Close the client after it receives the response
       client.close();
@@ -60,24 +59,23 @@ describe('WebSocket Server', () => {
     await waitForSocketState(client, client.CLOSED);
     expect(responseMessage).toEqual(testMessage);
   });
+
   test('Send "typing" from Client and wait until not typing timeout', async () => {
     const testMessage: Message = {
       type: 'typing',
       user: user,
     };
     // Create test client
-    const client = new WebSocket(`ws://localhost:${port}`);
-    await waitForSocketState(client, client.OPEN);
     const responseMessages: Message[] = [];
     let messageCounter = 0;
-    client.on('message', (data: RawData) => {
+    const client = await createClient((data: RawData) => {
       responseMessages.push(JSON.parse(data.toString()));
       messageCounter++;
       // Close the client after it receives the response
       if (messageCounter >= 2) {
         client.close();
       }
-    });
+    })
     // Send client message
     client.send(JSON.stringify(testMessage));
     // Perform assertions on the response
@@ -89,4 +87,13 @@ describe('WebSocket Server', () => {
     expect(responseMessages[0]).toEqual(expectedMessage);
     expect(responseMessages[1]).toEqual({ type: 'typing', users: [] });
   });
+
+  // region helpers
+  async function createClient(messageCallback: (data: RawData) => void) {
+    const client = new WebSocket(`ws://localhost:${port}`);
+    await waitForSocketState(client, client.OPEN);
+    client.on('message', messageCallback);
+    return client;
+  }
+  // endregion
 });
