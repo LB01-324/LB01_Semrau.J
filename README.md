@@ -1,6 +1,6 @@
 # A simple chat app with websocket
 
-## Prerequisites
+## Prerequisites
 
 - Docker
 - Node >= 20.x
@@ -9,9 +9,10 @@
 
 ```bash
 npm install
-docker compose up -d # For Redis as Message Broker
+docker compose up -d # For starting the app as Docker containers
 npm run dev # For development
-npm run prod # For Production or Docker Init Command
+npm run prod # For production or Docker init command
+npm run lint # Check code style
 ```
 
 Then acces the frontend at http://localhost:3000
