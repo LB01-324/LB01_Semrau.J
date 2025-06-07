@@ -1,5 +1,5 @@
 import { Server } from 'http';
-import { Server as WSServer, WebSocket, RawData } from 'ws';
+import { RawData, Server as WSServer, WebSocket } from 'ws';
 import { DebouncedFunction, Message, User } from './interfaces';
 import { debounce } from 'lodash';
 
@@ -16,7 +16,7 @@ const broadcastMessage = (message: Message) => {
   });
 };
 
-// Intiiate the websocket server
+// Initiate the websocket server
 const initializeWebsocketServer = (server: Server) => {
   websocketServer = new WSServer({ server });
   websocketServer.on('connection', onConnection);

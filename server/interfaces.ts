@@ -15,6 +15,7 @@ export interface Message {
 
 export interface DebouncedFunction<T extends (...args: unknown[]) => unknown> {
   (...args: Parameters<T>): ReturnType<T>;
+
   cancel: () => void;
   flush: () => void;
 }
