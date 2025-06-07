@@ -16,7 +16,7 @@ const broadcastMessage = (message: Message) => {
   });
 };
 
-// Intiiate the websocket server
+// Initiate the websocket server
 const initializeWebsocketServer = (server: Server) => {
   websocketServer = new WSServer({ server });
   websocketServer.on('connection', onConnection);

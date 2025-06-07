@@ -15,4 +15,4 @@ npm run prod # For production or Docker init command
 npm run lint # Check code style
 ```
 
-Then acces the frontend at http://localhost:3000
+Then access the frontend at http://localhost:3000
