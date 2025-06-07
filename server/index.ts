@@ -1,8 +1,7 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import http from 'http';
 import livereload from 'livereload';
 import connectLiveReload from 'connect-livereload';
-import { Request, Response } from 'express';
 import { initializeWebsocketServer } from './websocketserver';
 import { WebSocket } from 'ws';
 
