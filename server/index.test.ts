@@ -97,3 +97,14 @@ describe('WebSocket Server', () => {
   }
   // endregion
 });
+
+describe('Server', () => {
+  test('healthcheck endpoint returns OK', async () => {
+    // start the server
+    startServer(port);
+    // check if healthcheck endpoint returns OK
+    const response = await fetch(`http://localhost:${port}/healthcheck`);
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('OK');
+  });
+});
