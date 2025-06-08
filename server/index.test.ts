@@ -75,7 +75,7 @@ describe('WebSocket Server', () => {
       if (messageCounter >= 2) {
         client.close();
       }
-    })
+    });
     // Send client message
     client.send(JSON.stringify(testMessage));
     // Perform assertions on the response
@@ -95,5 +95,18 @@ describe('WebSocket Server', () => {
     client.on('message', messageCallback);
     return client;
   }
+
   // endregion
+});
+
+describe('Server', () => {
+  test('healthcheck endpoint returns OK', async () => {
+    // start the server
+    const server = startServer(port);
+    // check if healthcheck endpoint returns OK
+    const response = await fetch(`http://localhost:${port}/healthcheck`);
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('OK');
+    server.close();
+  });
 });
