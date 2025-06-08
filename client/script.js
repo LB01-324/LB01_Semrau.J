@@ -21,6 +21,7 @@
         break;
       case 'activeUsers':
         activeUsers = message.users;
+        updateActiveUsersList();
         break;
       case 'typing':
         typingUsers = message.users;
@@ -38,7 +39,7 @@
   });
 
   // Wait until the DOM is loaded before adding event listeners
-  document.addEventListener('DOMContentLoaded', (event) => {
+  document.addEventListener('DOMContentLoaded', () => {
     // Send a message when the send button is clicked
     document.getElementById('sendButton').addEventListener('click', () => {
       const message = document.getElementById('messageInput').value;
@@ -46,8 +47,9 @@
       document.getElementById('messageInput').value = '';
     });
 
-    // Initialize the typing indicator
+    // Initialize the typing indicator and active users list
     updateTypingIndicator();
+    updateActiveUsersList();
   });
 
   document.addEventListener('keydown', (event) => {
@@ -97,5 +99,76 @@
       typingIndicator.classList.remove('opacity-0');
       typingIndicator.classList.add('opacity-100');
     }
+  }
+
+  // Function to update the active users list in the UI
+  function updateActiveUsersList() {
+    const activeUsersList = document.getElementById('activeUsersList');
+    if (!activeUsersList) return;
+
+    // Clear the current list
+    activeUsersList.innerHTML = '';
+
+    // Add each active user to the list
+    activeUsers.forEach(user => {
+      const userElement = document.createElement('div');
+      userElement.className = 'flex items-center bg-gray-800 rounded-lg px-3 py-2 mb-2 transition-all duration-300 hover:bg-gray-700 shadow-md';
+
+      // Add animation for new elements
+      userElement.style.opacity = '0';
+      userElement.style.transform = 'translateX(10px)';
+
+      // Highlight the current user
+      if (user.id === myUser.id) {
+        userElement.className += ' border-l-4 border-green-500';
+      }
+
+      // Create avatar
+      const avatar = document.createElement('img');
+      avatar.src = `https://i.pravatar.cc/40?u=${user.id}`;
+      avatar.alt = user.name;
+      avatar.className = 'w-8 h-8 rounded-full mr-2';
+
+      // Create name element with status in a column layout
+      const userInfoContainer = document.createElement('div');
+      userInfoContainer.className = 'flex flex-col flex-grow';
+
+      const nameElement = document.createElement('span');
+      nameElement.className = 'text-sm font-medium text-white';
+
+      if (user.id === myUser.id) {
+        nameElement.textContent = `${user.name} (You)`;
+        nameElement.className += ' text-green-300';
+      } else {
+        nameElement.textContent = user.name;
+      }
+
+      // Add status indicator with text
+      const statusContainer = document.createElement('div');
+      statusContainer.className = 'flex items-center mt-1';
+
+      const statusIndicator = document.createElement('span');
+      statusIndicator.className = 'w-2 h-2 rounded-full mr-1 bg-green-500';
+
+      const statusText = document.createElement('span');
+      statusText.className = 'text-xs text-gray-400';
+      statusText.textContent = 'Online';
+
+      // Assemble the user element
+      statusContainer.appendChild(statusIndicator);
+      statusContainer.appendChild(statusText);
+      userInfoContainer.appendChild(nameElement);
+      userInfoContainer.appendChild(statusContainer);
+
+      userElement.appendChild(avatar);
+      userElement.appendChild(userInfoContainer);
+      activeUsersList.appendChild(userElement);
+
+      // Trigger animation after a small delay
+      setTimeout(() => {
+        userElement.style.opacity = '1';
+        userElement.style.transform = 'translateX(0)';
+      }, 50 * activeUsers.indexOf(user));
+    });
   }
 })();
